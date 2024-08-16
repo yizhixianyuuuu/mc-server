@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>curve</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #e0e5ec;
+            color: #333;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            font-size: 16px;
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+
+        .info label {
+            font-weight: bold;
+        }
+
+        .json-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            background: #f9f9f9;
+            max-height: 200px;
+            /* 设置容器的最大高度 */
+            overflow: hidden;
+            /* 隐藏滚动条 */
+            position: relative;
+            /* 用于定位滚动控制 */
+        }
+
+        .json-content {
+            max-height: 100%;
+            overflow: auto;
+            /* 允许在内容超出容器时进行滚动 */
+            white-space: nowrap;
+            /* 防止内容换行 */
+            padding-right: 17px;
+            /* 添加空间以容纳滚动控制 */
+        }
+
+        .json-content::-webkit-scrollbar {
+            width: 0;
+            /* 隐藏滚动条 */
+            height: 0;
+            /* 隐藏滚动条 */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="title"><strong>Curve</strong></div>
+        <div class="description">一个纯净的, 没有任何杂质的生存服务器</div>
+        <div id="info-container">
+            <div class="info"><label>状态:</label> <span id="status">加载中...</span></div>
+            <div class="info"><label>协议:</label> <span id="agreement">加载中...</span></div>
+            <div class="info"><label>版本:</label> <span id="version">加载中...</span></div>
+            <div class="info"><label>在线人数:</label> <span id="online">加载中...</span></div>
+        </div>
+        <div class="json-container">
+            <div class="json-content" id="json-display">加载中...</div>
+        </div>
+    </div>
+
+    <script>
+        // 异步函数，用于获取服务器状态
+        async function fetchServerStatus() {
+            try {
+                const response = await fetch('https://motdbe.blackbe.work/api?host=mc.elecho.dev:30296');
+                const data = await response.json();
+
+                // 提取并更新数据
+                document.getElementById('status').textContent = data.status || 'N/A';
+                document.getElementById('agreement').textContent = data.agreement || 'N/A';
+                document.getElementById('version').textContent = data.version || 'N/A';
+                document.getElementById('online').textContent = data.online || 'N/A';
+
+                // 显示 JSON 数据
+                document.getElementById('json-display').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('获取服务器状态时出错:', error);
+                document.getElementById('status').textContent = '错误';
+                document.getElementById('agreement').textContent = '错误';
+                document.getElementById('version').textContent = '错误';
+                document.getElementById('online').textContent = '错误';
+                document.getElementById('json-display').textContent = '无法加载 JSON 数据';
+            }
+        }
+    </script>
+</body>
+
+</html>
