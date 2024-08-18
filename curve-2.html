@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curve</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #e0e5ec;
+            color: #333;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+        }
+        .title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .description {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .info {
+            font-size: 16px;
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+        .info label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Curve</div>
+        <div class="description">一个纯净的, 没有任何杂质的生存服务器</div>
+        <div id="info-container">
+            <div class="info"><label>Code:</label> <span id="code">Loading...</span></div>
+            <div class="info"><label>Message:</label> <span id="msg">Loading...</span></div>
+            <div class="info"><label>Status:</label> <span id="status">Loading...</span></div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchServerStatus() {
+            try {
+                const response = await fetch('https://api.wer.plus/api/mcse?host=mc.elecho.dev&port=30296');
+                const data = await response.json();
+                
+                // Extract and update the data from the response
+                document.getElementById('code').textContent = data.code || 'N/A';
+                document.getElementById('msg').textContent = data.msg || 'N/A';
+                document.getElementById('status').textContent = data.data?.status || 'N/A'; // Adjusted for status inside data
+            } catch (error) {
+                console.error('Error fetching server status:', error);
+                document.getElementById('code').textContent = 'Error';
+                document.getElementById('msg').textContent = 'Failed to load data';
+                document.getElementById('status').textContent = 'Error';
+            }
+        }
+
+        // Fetch server status on page load
+        fetchServerStatus();
+    </script>
+</body>
+</html>
