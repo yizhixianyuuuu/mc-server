@@ -107,10 +107,10 @@
                 const data = await response.json();
 
                 // 提取并更新数据
-                document.getElementById('status').textContent = data.status || 'N/A';
-                document.getElementById('agreement').textContent = data.agreement || 'N/A';
-                document.getElementById('version').textContent = data.version || 'N/A';
-                document.getElementById('online').textContent = data.online || 'N/A';
+                document.getElementById('status').textContent = data.status ?? 'N/A';
+                document.getElementById('agreement').textContent = data.agreement ?? 'N/A';
+                document.getElementById('version').textContent = data.version ?? 'N/A';
+                document.getElementById('online').textContent = data.online ?? 'N/A';
 
                 // 显示 JSON 数据
                 document.getElementById('json-display').textContent = JSON.stringify(data, null, 2);
