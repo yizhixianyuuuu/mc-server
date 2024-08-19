@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>curve</title>
+    <title>Curve</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,6 +16,10 @@
             height: 100vh;
             background: #e0e5ec;
             color: #333;
+        }
+
+        * {
+            user-select: none;
         }
 
         .container {
@@ -58,28 +62,21 @@
             padding: 10px;
             background: #f9f9f9;
             max-height: 200px;
-            /* 设置容器的最大高度 */
-            overflow: hidden;
-            /* 隐藏滚动条 */
+            overflow: auto;
             position: relative;
-            /* 用于定位滚动控制 */
+            text-align: left;
         }
 
-        .json-content {
-            max-height: 100%;
-            overflow: auto;
-            /* 允许在内容超出容器时进行滚动 */
-            white-space: nowrap;
-            /* 防止内容换行 */
-            padding-right: 17px;
-            /* 添加空间以容纳滚动控制 */
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 0;
+            text-align: left;
         }
 
         .json-content::-webkit-scrollbar {
             width: 0;
-            /* 隐藏滚动条 */
             height: 0;
-            /* 隐藏滚动条 */
         }
     </style>
 </head>
@@ -92,10 +89,10 @@
             <div class="info"><label>状态:</label> <span id="status">加载中...</span></div>
             <div class="info"><label>协议:</label> <span id="agreement">加载中...</span></div>
             <div class="info"><label>版本:</label> <span id="version">加载中...</span></div>
-            <div class="info"><label>在线人数:</label> <span id="online">加载中...</span></div>
+            <div class="info"><label>在线:</label> <span id="online">加载中...</span></div>
         </div>
         <div class="json-container">
-            <div class="json-content" id="json-display">加载中...</div>
+            <pre class="json-content" id="json-display">加载中...</pre>
         </div>
     </div>
 
@@ -103,7 +100,7 @@
         // 异步函数，用于获取服务器状态
         async function fetchServerStatus() {
             try {
-                const response = await fetch('https://motdbe.blackbe.work/api?host=mc.elecho.dev:30296');
+                const response = await fetch('https://motdbe.blackbe.work/api?host=mc.elecho.dev:30296'); // API
                 const data = await response.json();
 
                 // 提取并更新数据
@@ -113,7 +110,7 @@
                 document.getElementById('online').textContent = data.online ?? 'N/A';
 
                 // 显示 JSON 数据
-                document.getElementById('json-display').textContent = JSON.stringify(data, null, 2);
+                document.getElementById('json-display').textContent = JSON.stringify(data, null, 2); // 格式化JSON显示
             } catch (error) {
                 console.error('获取服务器状态时出错:', error);
                 document.getElementById('status').textContent = '错误';
